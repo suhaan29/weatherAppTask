@@ -5,11 +5,14 @@ import {
   FETCH_WEATHER_FAILURE
 } from './weatherTypes'
 
-export const fetchWeather = () => {
+export const fetchWeather = (city) => {
+  console.log(city);
+  var CITY = city.charAt(0).toUpperCase() + city.slice(1)
+  var api = `https://api.openweathermap.org/data/2.5/weather?q=${CITY}&units=metric&appid=998378b08cb424871607330d3514b690`
     return (dispatch) => {
       dispatch(fetchWeatherRequest())
       axios
-        .get('https://api.openweathermap.org/data/2.5/weather?q=Mumbai&units=metric&appid=998378b08cb424871607330d3514b690')
+        .get(api)
         .then(response => {
           // response.data is the users
           const weather = response.data

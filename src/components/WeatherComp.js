@@ -2,27 +2,28 @@ import {React , useEffect} from 'react'
 import {connect} from 'react-redux'
 import {fetchWeather} from '../reduxWeather/weather/weatherAct'
 import "./weather.css"
-function WeatherComp ({weatherData, fetchWeather}) {
+function WeatherComp ({weatherData, fetchWeather, city}) {
 
     useEffect(() => {
-        fetchWeather()
+        fetchWeather(city)
       }, [])
 
       return weatherData.loading ? (
-        <h2>Loading</h2>
+        <span>loading</span>
       ) : weatherData.error ? (
-        <h2>{weatherData.error}</h2>
+        <div className = "wrapper">
+               <div className = "container">
+        <h2>{weatherData.error}</h2></div></div>
+        
       ) : (
           <div className = "wrapper">
-        <div className = "container">
-           <span>Mumbai : </span>
+               <div className = "container">
+               <span>{city} : </span>
               {console.log(weatherData)}
-            {weatherData &&
-              weatherData.weather &&
-              
-            //   weatherData.weather.map(weather => <p>{weather.main.temp}</p>)}
-            weatherData.main.temp }
-
+                { weatherData.weather &&
+                  weatherData.weather.weather &&
+                  weatherData.weather.main.temp }
+  
             <span> Degrees Celcius &deg;</span>
           
         </div>
@@ -32,13 +33,13 @@ function WeatherComp ({weatherData, fetchWeather}) {
 
 const mapStateToProps = state => {
     return {
-      weatherData: state.weather
+      weatherData: state
     }
   }
   
   const mapDispatchToProps = dispatch => {
     return {
-      fetchWeather: () => dispatch(fetchWeather())
+      fetchWeather: (city) => dispatch(fetchWeather(city))
     }
   }
 
